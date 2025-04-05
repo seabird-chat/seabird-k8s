@@ -29,10 +29,10 @@
           devShells.default = pkgs.mkShell {
             packages = with pkgs;
             with config.packages; [
-
                 flux-bin
                 talhelper-bin
                 talosctl-bin
+                kubectl-bin
 
                 age
                 kubernetes-helm
