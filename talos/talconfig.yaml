@@ -1,0 +1,73 @@
+---
+.extra-hosts-patch: &extra-hosts-patch |-
+  machine:
+    network:
+      extraHostEntries:
+        - ip: 192.168.40.2
+          aliases: [vip.infra.seabird.chat]
+
+.common: &common
+  disableSearchDomain: true
+  schematic:
+    overlay:
+      name: rpi_generic
+      image: siderolabs/sbc-raspberrypi
+
+.net-bcmgenet: &net-bcmgenet
+  deviceSelector:
+    driver: bcmgenet
+  dhcp: true
+
+.rpi-worker: &rpi-worker
+  <<: *common
+  installDisk: /dev/sda
+  controlPlane: false
+  networkInterfaces:
+    - <<: *net-bcmgenet
+
+.rpi-control: &rpi-control
+  <<: *common
+  installDisk: /dev/sda
+  controlPlane: true
+  networkInterfaces:
+    - <<: *net-bcmgenet
+      vip:
+        ip: 192.168.40.2
+
+clusterName: seabird
+talosVersion: v1.9.5
+kubernetesVersion: v1.32.2
+endpoint: https://192.168.40.2:6443
+domain: infra.seabird.chat
+allowSchedulingOnMasters: true
+additionalMachineCertSans:
+  - 192.168.40.2
+nodes:
+  # Control Plane Nodes
+  - hostname: kupo
+    ipAddress: 192.168.40.10
+    <<: *rpi-control
+    patches:
+      - *extra-hosts-patch
+  - hostname: stiltzkin
+    ipAddress: 192.168.40.11
+    <<: *rpi-control
+    patches:
+      - *extra-hosts-patch
+  - hostname: moguo
+    ipAddress: 192.168.40.12
+    <<: *rpi-control
+    patches:
+      - *extra-hosts-patch
+
+  # Worker Nodes
+  - hostname: monty
+    ipAddress: 192.168.40.13
+    <<: *rpi-worker
+    patches:
+      - *extra-hosts-patch
+  - hostname: artemicion
+    ipAddress: 192.168.40.14
+    <<: *rpi-worker
+    patches:
+      - *extra-hosts-patch
