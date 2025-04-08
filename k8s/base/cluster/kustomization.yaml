@@ -6,3 +6,4 @@ resources:
 - app-cnpg.yaml
 - app-longhorn.yaml
 - app-metallb.yaml
+- app-traefik.yaml
