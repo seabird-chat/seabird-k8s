@@ -4,4 +4,5 @@ resources:
 - charts.yaml
 - gotk-sync.yaml
 - app-cnpg.yaml
+- app-longhorn.yaml
 - app-metallb.yaml
