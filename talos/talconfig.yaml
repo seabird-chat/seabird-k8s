@@ -6,6 +6,18 @@
         - ip: 192.168.40.2
           aliases: [vip.infra.seabird.chat]
 
+.longhorn-mounts-patch: &longhorn-mounts-patch |-
+  machine:
+    kubelet:
+      extraMounts:
+        - destination: /var/lib/longhorn
+          type: bind
+          source: /var/lib/longhorn
+          options:
+            - bind
+            - rshared
+            - rw
+
 .common: &common
   disableSearchDomain: true
   schematic:
@@ -15,7 +27,10 @@
     customization:
       systemExtensions:
         officialExtensions:
+          # Both iscsi-tools and util-linux-tools are needed for longhorn to
+          # work
           - siderolabs/iscsi-tools
+          - siderolabs/util-linux-tools
 
 .net-bcmgenet: &net-bcmgenet
   deviceSelector:
@@ -53,16 +68,19 @@ nodes:
     <<: *rpi-control
     patches:
       - *extra-hosts-patch
+      - *longhorn-mounts-patch
   - hostname: stiltzkin
     ipAddress: 192.168.40.11
     <<: *rpi-control
     patches:
       - *extra-hosts-patch
+      - *longhorn-mounts-patch
   - hostname: moguo
     ipAddress: 192.168.40.12
     <<: *rpi-control
     patches:
       - *extra-hosts-patch
+      - *longhorn-mounts-patch
 
   # Worker Nodes
   - hostname: monty
@@ -70,8 +88,10 @@ nodes:
     <<: *rpi-worker
     patches:
       - *extra-hosts-patch
+      - *longhorn-mounts-patch
   - hostname: artemicion
     ipAddress: 192.168.40.14
     <<: *rpi-worker
     patches:
       - *extra-hosts-patch
+      - *longhorn-mounts-patch
