@@ -21,6 +21,7 @@ spec:
         forwardedHeaders:
           trustedIPs:
           - 192.168.30.0/24
+      websecure: null
     ingressRoute:
       dashboard:
         enabled: true
