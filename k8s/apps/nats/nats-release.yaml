@@ -20,3 +20,8 @@ spec:
         enabled: true
       jetstream:
         enabled: true
+    podTemplate:
+      topologySpreadConstraints:
+        kubernetes.io/hostname:
+          maxSkew: 1
+          whenUnsatisfiable: DoNotSchedule
