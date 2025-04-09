@@ -21,6 +21,11 @@ spec:
         forwardedHeaders:
           trustedIPs:
           - 192.168.30.0/24
+    ingressRoute:
+      dashboard:
+        enabled: true
+      healthcheck:
+        enabled: true
     service:
       annotations:
         metallb.universe.tf/loadBalancerIPs: '192.168.40.240'
