@@ -4,4 +4,5 @@ resources:
 - cnpg.yaml
 - longhorn.yaml
 - metallb.yaml
+- nats.yaml
 - traefik.yaml
