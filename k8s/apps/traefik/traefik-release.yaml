@@ -15,6 +15,12 @@ spec:
         name: traefik-charts
         namespace: flux-system
   values:
+    ports:
+      web:
+        asDefault: true
+        forwardedHeaders:
+          trustedIPs:
+          - 192.168.30.0/24
     service:
       annotations:
         metallb.universe.tf/loadBalancerIPs: '192.168.40.240'
