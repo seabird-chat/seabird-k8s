@@ -6,4 +6,5 @@ resources:
 - app-cnpg.yaml
 - app-longhorn.yaml
 - app-metallb.yaml
+- app-nats.yaml
 - app-traefik.yaml
